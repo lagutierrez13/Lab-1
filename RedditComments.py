@@ -30,16 +30,16 @@ def get_submission_comments(url):
     return submission.comments
 
 
-# method of getting all comments without recursion
+# method of getting all comments with recursion
 def process_comments(comments, neg, pos, neu):
     for comment in comments:  # for loop to traverse comments within the same level
         if len(comment.replies) > 0:  # if comment has a reply
             process_comments(comment.replies, neg, pos, neu)  # recursive call on the comment's reply
         if get_text_negative_prob(comment.body) > 0.5:  # if comment is over 50% negative add to negatives list
             neg.append(comment.body)
-        elif get_text_positive_prob(comment.body) > 0.5:  # if comment is over 50% negative add to negatives list
+        elif get_text_positive_prob(comment.body) > 0.5:  # if comment is over 50% positive add to negatives list
             pos.append(comment.body)
-        elif get_text_neutral_prob(comment.body) > 0.5:  # if comment is over 50% negative add to negatives list
+        elif get_text_neutral_prob(comment.body) > 0.5:  # if comment is over 50% neutral add to negatives list
             neu.append(comment.body)
     return
 
